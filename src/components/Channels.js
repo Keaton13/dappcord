@@ -7,7 +7,10 @@ const Channels = ({
   setCurrentChannel,
 }) => {
   const channelHandler = async (channel) => {
+    // Check if user has joined
+    // If they haven't allow them to mint.
     const hasJoined = await dappcord.hasJoined(channel.id, account);
+
     if (hasJoined) {
       setCurrentChannel(channel);
     } else {
@@ -26,24 +29,20 @@ const Channels = ({
         <h2>Text Channels</h2>
 
         <ul>
-          {channels ? (
-            channels.map((channel, index) => (
-              <li
-                key={index}
-                onClick={() => channelHandler(channel)}
-                className={
-                  currentChannel &&
-                  currentChannel.id.toString() === channel.id.toString()
-                    ? "active"
-                    : ""
-                }
-              >
-                {channel.name}
-              </li>
-            ))
-          ) : (
-            <></>
-          )}
+          {channels && channels.map((channel, index) => (
+            <li
+              onClick={() => channelHandler(channel)}
+              key={index}
+              className={
+                currentChannel &&
+                currentChannel.id.toString() === channel.id.toString()
+                  ? "active"
+                  : ""
+              }
+            >
+              {channel.name}
+            </li>
+          ))}
         </ul>
       </div>
 
